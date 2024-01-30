@@ -87,3 +87,12 @@ body {
   white-space: nowrap; /* Prevent text from wrapping */
 }
 
+
+.active-tab {
+  background-color: #93c5fd;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  border: none;
+  outline: none;
+  color: black;
+}
