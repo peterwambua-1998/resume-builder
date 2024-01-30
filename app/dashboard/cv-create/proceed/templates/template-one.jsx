@@ -12,6 +12,7 @@ import ExperienceWidget from "./template-one-components/experience";
 import EducationWidget from "./template-one-components/education";
 import References from "./template-one-components/references";
 import Award from "./template-one-components/achievements";
+import SkillWidget from "./template-one-components/skills";
 
 const TemplateOne = ({userId}) => {
     const [user, setUser] = useState(userId);
@@ -73,18 +74,9 @@ const TemplateOne = ({userId}) => {
                         <div className="bg-indigo-950">
                             <p className="font-bold text-[8px] md:text-lg lg:text-lg text-center">Skills</p>
                         </div>
-                        <div className="flex justify-center mb-2 text-[5px] md:text-base lg:text-base">
-                            <ul style={{ listStyleType: 'disc' }} className="text-black pl-10 pr-10 ">
-                                <li>Databases</li>
-                                <li>HTML</li>
-                                <li>CSS</li>
-                                <li>Javascript</li>
-                                <li>Skill 1</li>
-                            </ul>
-                        </div>
-                        <div className="p-2 mb-2">
-                            <button className="text-[5px] md:text-base lg:text-base bg-amber-500 pt-2 pb-2 pl-4 pr-4 rounded-full w-full text-black"><FontAwesomeIcon icon={faCirclePlus} /> Add Skill</button>
-                        </div>
+                        
+                        <SkillWidget user_id={userId} />
+                        
                         
                         <div className="bg-indigo-950 ">
                             <p className="font-bold text-[8px] md:text-lg lg:text-lg text-center">Awards</p>

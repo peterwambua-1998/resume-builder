@@ -24,14 +24,11 @@ const AboutMe = ({useId}) => {
     };
 
     const handleBlur = (e) => {
-        console.log(e.target.textContent);
         handleChange(e.target.textContent)
     };
 
     const handleChange = (value) => {
-        console.log(value);
         about = value;
-        console.log(about);
         updateAbout();
     };
 
@@ -109,8 +106,8 @@ const AboutMe = ({useId}) => {
                         about == null ? 
                     (<div >add about me</div>) 
                     : 
-                    (<div>
-                        <p className="text-[8px] md:text-base lg:text-base" onClick={handleDoubleClick} contentEditable={isEditing} style={{border: isEditing ? 'none' : 'none', cursor: isEditing ? 'text' : 'default',}}  onBlur={(e) => handleBlur(e)} onChange={(e) => handleChange(e)}>{about}</p>
+                    (<div className="hover:border-2 hover:cursor-text">
+                        <p className="text-[8px] md:text-base lg:text-base " onClick={handleDoubleClick} contentEditable={isEditing} style={{border: isEditing ? 'none' : 'none', cursor: isEditing ? 'text' : 'default',}}  onBlur={(e) => handleBlur(e)} onChange={(e) => handleChange(e)}>{about}</p>
                     </div>)
                 }
                 <Button onClick={toggleVisible} className="mt-2 bg-transparent w-full rounded-full border-amber-400 text-amber-800"><FontAwesomeIcon icon={faCirclePlus} /> Add About</Button>
