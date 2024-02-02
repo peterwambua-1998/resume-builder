@@ -1,11 +1,10 @@
 import { useState, useEffect } from "react";
-import { Button, Input, Modal, Badge } from "react-daisyui";
+import { Button, Input, Modal, Badge, Accordion } from "react-daisyui";
 import { collection, addDoc, query, where, getDoc, getDocs, onSnapshot, Timestamp } from "firebase/firestore"; 
 import {  db } from "@/app/firebase/firebase";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCirclePlus } from "@fortawesome/free-solid-svg-icons";
 
-const SkillWidget = ({user_id}) => {
+
+const SkillAddEdit = ({user_id}) => {
     const [visibleEdu, setVisibleEdu] = useState(false);
     var [skillName, setSkillName] = useState([]);
     var [skillNameError, setSkillNameError] = useState(null);
@@ -53,8 +52,8 @@ const SkillWidget = ({user_id}) => {
 
     return (  
         
-        <div className="mb-5 p-2">
-            {/* <Accordion className="bg-black text-white">
+        <div className="mb-3">
+            <Accordion className="bg-black text-white">
                 <Accordion.Title className="text-xl font-medium text-white">
                     Skills
                 </Accordion.Title>
@@ -66,11 +65,15 @@ const SkillWidget = ({user_id}) => {
                                 </div>
                             ))}
                         </div>
-                        
+                        <div className="form-control w-full grow">
+                                        <div className="">
+                                            <Button onClick={toggleVisibleEdu}>Add</Button>
+                                        </div>
+                                    </div>
                         
                 </Accordion.Content>
-            </Accordion> */}
-            <div className="flex justify-center mb-2 text-[5px] md:text-base lg:text-base">
+            </Accordion>
+            {/* <div className="flex justify-center mb-2 text-[5px] md:text-base lg:text-base">
                 <ul style={{ listStyleType: 'disc' }} className="text-black pl-10 pr-10 ">
                     {skillData.map((skill, index) => (
                         <li key={index}>{skill.name}</li>
@@ -78,7 +81,9 @@ const SkillWidget = ({user_id}) => {
                 </ul>
             </div>
 
-           
+            <div className="p-2 mb-2">
+                <button onClick={() => toggleVisibleEdu()} className="text-[5px] md:text-base lg:text-base bg-amber-500 pt-2 pb-2 pl-4 pr-4 rounded-full w-full text-black"><FontAwesomeIcon icon={faCirclePlus} /> Add Skill</button>
+            </div> */}
             <Modal.Legacy open={visibleEdu} className="bg-white max-w-5xl">
                 <form>
                     <Modal.Header className="font-bold text-black">Skill</Modal.Header>
@@ -103,4 +108,4 @@ const SkillWidget = ({user_id}) => {
     );
 }
  
-export default SkillWidget;
+export default SkillAddEdit;

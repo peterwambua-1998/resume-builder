@@ -8,11 +8,37 @@ import Image from "next/image";
 import profileImg from '@/app/images/profile.jpeg';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCirclePlus, faCoffee } from "@fortawesome/free-solid-svg-icons";
-import AboutMe from "./components/about-me";
 import TemplateOne from "./templates/template-one";
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import TemplateTwo from "./templates/template-two";
+import Address from "../components/address";
+import AboutAddEdit from "./templates/add-edit/about";
+import AboutMe from "./templates/template-one-components/about";
+import SkillAddEdit from "./templates/add-edit/skills";
+import AwardAddEdit from "./templates/add-edit/awards";
+import ProfileDetails from "./templates/add-edit/profile";
+import Profile from "./templates/template-one-components/profile";
+
+
+// componentDidMount() {
+//     // Logging to prove _app.js only mounts once,
+//     // but initializing router events here will also accomplishes
+//     // goal of setting state on route change
+//     console.log('MOUNT');
+
+//     Router.events.on('routeChangeStart', () => {
+//       this.setState({ isLoading: true });
+//     });
+
+//     Router.events.on('routeChangeComplete', () => {
+//       this.setState({ isLoading: false });
+//     });
+
+//     Router.events.on('routeChangeError', () => {
+//       this.setState({ isLoading: false });
+//     });
+//   }
 
 const CvPageDesign = () => {
 
@@ -22,7 +48,10 @@ const CvPageDesign = () => {
     return (
         <div className="md:grid md:grid-cols-4 bg-slate-200">
             <div className="bg-white pt-10 pl-5 pr-5">
-                <p>Profile</p>
+                <ProfileDetails userId={firebase_user.uid} />
+                <AboutAddEdit useId={firebase_user.uid} />
+                <SkillAddEdit user_id={firebase_user.uid} />
+                <AwardAddEdit userId={firebase_user.uid} />
             </div>
             <div className="md:col-span-3 p-10">
                 {/* tabs */}
@@ -46,11 +75,7 @@ const CvPageDesign = () => {
                             <div className="text-center">
                                 <h3 className="md:font-bold md:text-xl mb-2">Peter Wambua Mutuku</h3>
                                 <p className="text-[#808080] text-sm mb-2">senior product designer</p>
-                                <div className="flex gap-4 text-sm">
-                                    <p>pwambua25@gmail.com</p>
-                                    <p>+254 715 100 539</p>
-                                    <p>Nairobi, Kenya</p>
-                                </div>
+                                <Profile userId={firebase_user.uid} />
                             </div>
                             <div></div>
                         </div>

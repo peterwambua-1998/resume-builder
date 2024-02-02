@@ -2,21 +2,21 @@
 import { useEffect, useState } from "react";
 import { Input,Textarea, Accordion, Badge, Button } from "react-daisyui";
 import { collection, query, where, getDoc, getDocs, onSnapshot, Timestamp,doc, addDoc, setDoc } from "firebase/firestore"; 
-import { db } from "@/app/firebase";
+import { db } from "@/app/firebase/firebase";
 
 const AboutMe = ({userId}) => {
     const [about, setAbout] = useState(null);
     const [aboutValue, setAboutValue] = useState(null);
 
     async function getAbout() {
-        try {
-            const usb = onSnapshot(doc(db, 'about', userId), doc => {
-                console.log(doc.data());
-                setAbout(doc.data());
-            });
-        } catch (error) {
-            console.log(error);
-        }
+        console.log('about user id' == userId);
+        // try {
+        //     onSnapshot(doc(db, 'about', userId), doc => {
+        //         setAbout(doc.data());
+        //     });
+        // } catch (error) {
+        //     console.log(error);
+        // }
     }
 
 
@@ -34,6 +34,7 @@ const AboutMe = ({userId}) => {
 
     useEffect(() => {
         getAbout();
+        console.log(userId);
     }, [])
     
 

@@ -110,7 +110,7 @@ const AboutMe = ({useId}) => {
                         <p className="text-[8px] md:text-base lg:text-base " onClick={handleDoubleClick} contentEditable={isEditing} style={{border: isEditing ? 'none' : 'none', cursor: isEditing ? 'text' : 'default',}}  onBlur={(e) => handleBlur(e)} onChange={(e) => handleChange(e)}>{about}</p>
                     </div>)
                 }
-                <Button onClick={toggleVisible} className="mt-2 bg-transparent w-full rounded-full border-amber-400 text-amber-800"><FontAwesomeIcon icon={faCirclePlus} /> Add About</Button>
+                {/* <Button onClick={toggleVisible} className="mt-2 bg-transparent w-full rounded-full border-amber-400 text-amber-800"><FontAwesomeIcon icon={faCirclePlus} /> Add About</Button>
                 <Modal.Legacy open={visible} className="bg-white max-w-5xl">
                 <form>
                     <Modal.Header className="font-bold">About me</Modal.Header>
@@ -133,7 +133,7 @@ const AboutMe = ({useId}) => {
                         <Button type="button" className="bg-[#F59E0B] text-white border-none" onClick={() => addAbout()}>Save</Button>
                     </Modal.Actions>
                 </form>
-            </Modal.Legacy>
+            </Modal.Legacy> */}
         
         </div>
     );

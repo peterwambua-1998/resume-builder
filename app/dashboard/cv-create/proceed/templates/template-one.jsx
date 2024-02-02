@@ -13,6 +13,7 @@ import EducationWidget from "./template-one-components/education";
 import References from "./template-one-components/references";
 import Award from "./template-one-components/achievements";
 import SkillWidget from "./template-one-components/skills";
+import Profile from "./template-one-components/profile";
 
 const TemplateOne = ({userId}) => {
     const [user, setUser] = useState(userId);
@@ -35,20 +36,7 @@ const TemplateOne = ({userId}) => {
                     </div>
                     </div>
                     
-                    <div className="grid grid-cols-3 md:grid md:grid-cols-3">
-                        <div className="flex flex-col items-center w-full ">
-                            <FontAwesomeIcon  icon={faLocationPin} className="text-amber-500 text-xs md:w-[22px]" />
-                            <p className="text-[8px] md:text-base lg:text-base">location</p>
-                        </div>
-                        <div className="flex flex-col items-center w-full">
-                            <FontAwesomeIcon  icon={faEnvelope} className="text-amber-500 text-xs md:w-[22px]" />
-                            <p className="text-[8px] md:text-base lg:text-base">pwambua25@gmail.com</p>
-                        </div>
-                        <div className="flex flex-col items-center w-full">
-                            <FontAwesomeIcon  icon={faPhone} className="text-amber-500 text-xs md:w-[22px]" />
-                            <p className="text-[8px] md:text-base lg:text-base">+254 715 100 539</p>
-                        </div>
-                    </div>
+                   <Profile userId={userId} />
                     
                 </div>
                 {/* top dark area */}
@@ -82,9 +70,7 @@ const TemplateOne = ({userId}) => {
                             <p className="font-bold text-[8px] md:text-lg lg:text-lg text-center">Awards</p>
                         </div>
                         <Award userId={userId} />
-                        <div className="p-2 mb-2">
-                            <button onClick={toggleVisibleEdu} className="text-[5px] md:text-base lg:text-base bg-amber-500 pt-2 pb-2 pl-4 pr-4 rounded-full w-full text-black"><FontAwesomeIcon icon={faCirclePlus} /> Add Education</button>
-                        </div>
+                        
                     </div>
                     <div className="col-span-3 pl-5 pr-5 md:pl-10 md:pr-10 lg:pl-10 lg:pr-10 border-t border-amber-400">
                         <p className="font-bold text-[12px] md:text-lg lg:text-lg text-center mt-2 border-b">Work Experience</p>

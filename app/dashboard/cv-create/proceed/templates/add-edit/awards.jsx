@@ -1,15 +1,15 @@
 'use client'
 import { useEffect, useState } from "react";
-import { Input, Button, Card, Modal } from "react-daisyui";
-import { collection, query, where, onSnapshot, Timestamp, addDoc } from "firebase/firestore"; 
+import { Input,Textarea, Accordion, Badge, Button, Card, Modal } from "react-daisyui";
+import { collection, query, where, getDoc, getDocs, onSnapshot, Timestamp,doc, addDoc } from "firebase/firestore"; 
 import { db } from "@/app/firebase/firebase";
 
-const Award = ({userId}) => {
-    const [visibleEdu, setVisibleEdu] = useState(false);
-
+const AwardAddEdit = ({userId}) => {
+    console.log(userId);
     const [awards, setAwards] = useState([]);
     const [awardValue, setAwardValue] = useState(null);
     const [descriptionValue, setDescriptionValue] = useState(null);
+    const [visibleEdu, setVisibleEdu] = useState(false);
 
     const [titleError, setTitleError] = useState(null);
     const [descriptionError, setDescriptionError] = useState(null);
@@ -37,12 +37,14 @@ const Award = ({userId}) => {
     async function addAward() {
         if (!awardValue || awardValue == null) {
             setTitleError('field required');
+            return;
         } else {
             setTitleError('');
         }
 
         if (!descriptionValue || descriptionValue == null) {
             setDescriptionError('field required');
+            return;
         } else {
             setDescriptionError('');
         }
@@ -68,8 +70,7 @@ const Award = ({userId}) => {
 
     return (  
         <div>
-
-            {/* <Accordion className="bg-black text-white">
+            <Accordion className="bg-black text-white">
                 <Accordion.Title className="text-xl font-medium text-white">
                     Awards
                 </Accordion.Title>
@@ -93,30 +94,14 @@ const Award = ({userId}) => {
                                 <span className="label-text">Add Award</span>
                             </label>
                             <div className="flex gap-4">
-                                
-                                <Button onClick={() => {addAward()}}>Save</Button>
+                                <Button onClick={() => {toggleVisibleEdu()}}>Add</Button>
                             </div>
                         </div>
                         
                 </Accordion.Content>
-            </Accordion> */}
+            </Accordion>
 
-            {
-                awards.length > 0 ? (awards.map((award, index) => (
-
-                    <div className="flex justify-center text-black" key={index}>
-                        <div className="mb-8 p-2 md:p-5 lg:p-5">
-                            <p className="text-blue-600 text-[6px] md:text-base lg:text-base font-bold mb-2">{award.award}</p>
-                            <div className=" md:pl-3 lg:pl-3 text-[5px] md:text-sm lg:text-sm">
-                                <p>{award.description}</p>
-                            </div>
-                        </div>
-                    </div>
-                ))) : (<div className="text-[#808080] text-sm p-2 md:p-5 lg:p-5">You currently have no awards</div>)
-            }
-
-
-            {/* <Modal.Legacy open={visibleEdu} className="bg-white max-w-5xl">
+            <Modal.Legacy open={visibleEdu} className="bg-white max-w-5xl">
                 <form>
                     <Modal.Header className="font-bold">Award</Modal.Header>
                     <Modal.Body className="p-0">
@@ -135,7 +120,7 @@ const Award = ({userId}) => {
                                     <span className="">Description</span>
                                 </label>
                                 <div>
-                                    <Input className="bg-white text-black grow" placeholder="Description" onChange={(e) => setDescriptionValue(e.target.value)} />
+                                <Input className="bg-white text-black grow" placeholder="Description" onChange={(e) => setDescriptionValue(e.target.value)} />
                                     <div className="text-red-600 text-sm">{descriptionError}</div>
                                 </div>
                             </div>
@@ -143,12 +128,12 @@ const Award = ({userId}) => {
                     </Modal.Body>
                     <Modal.Actions>
                         <Button type="button" onClick={toggleVisibleEdu} >Close</Button>
-                        <Button type="button" className="bg-[#F59E0B] text-white border-none" onClick={() => {addReferences()}}>Save</Button>
+                        <Button type="button" className="bg-[#F59E0B] text-white border-none" onClick={() => {addAward()}}>Save</Button>
                     </Modal.Actions>
                 </form>
-            </Modal.Legacy> */}
+            </Modal.Legacy>
         </div>
     );
 }
  
-export default Award;
+export default AwardAddEdit;
