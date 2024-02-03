@@ -2,7 +2,8 @@
 import { useEffect, useState } from "react";
 import { Input, Card, Accordion, Badge, Button, Modal } from "react-daisyui";
 import { collection, query, where, getDoc, getDocs, onSnapshot, Timestamp,doc, addDoc } from "firebase/firestore"; 
-import { db } from "@/app/firebase";
+import { auth, db } from "@/app/firebase/firebase";
+
 
 const References = ({userId}) => {
     const [visibleEdu, setVisibleEdu] = useState(false);

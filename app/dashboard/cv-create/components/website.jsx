@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { Input,Textarea, Accordion, Badge, Button } from "react-daisyui";
 import { collection, query, where, getDoc, getDocs, onSnapshot, Timestamp,doc, addDoc, setDoc } from "firebase/firestore"; 
-import { db } from "@/app/firebase";
+import { auth, db } from "@/app/firebase/firebase";
 
 const WebsiteLink = ({userId}) => {
     const [website, setwebsite] = useState(null);

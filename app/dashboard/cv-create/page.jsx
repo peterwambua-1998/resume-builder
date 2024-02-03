@@ -1,8 +1,8 @@
 'use client'
-import { Input,Textarea, Accordion, Badge, Button } from "react-daisyui";
+import { Input, Textarea, Accordion, Badge, Button } from "react-daisyui";
 import Hobbies from "./components/hobbies";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "@/app/firebase";
+import { auth } from "@/app/firebase/firebase";
 import AboutMe from "./components/about-me";
 import WebsiteLink from "./components/website";
 import References from "./components/references";
@@ -22,7 +22,7 @@ const CreateCv = () => {
     }
 
     if (!loading && firebase_user != null) {
-        return (  
+        return (
             <div className="p-0 h-[100vh] resume-bg bg-slate-200">
                 <div className="p-5">
                     <Link href='/dashboard/cv-create/proceed' className="w-[100%] bg-[#1E3A8A] text-white pl-5 pr-5 pt-3 pb-3 rounded-md">View CV</Link>
@@ -50,15 +50,15 @@ const CreateCv = () => {
                         <br />
                         <SkillWidget user_id={firebase_user.uid} />
                     </div>
-               </div>
-                
+                </div>
+
             </div>
         );
     }
 
 
 }
- 
+
 export default CreateCv;
 
 /* <div className="grid grid-cols-1 md:grid md:grid-cols-2 lg:grid lg:grid-cols-2 gap-0 md:gap-5 lg:gap-8">

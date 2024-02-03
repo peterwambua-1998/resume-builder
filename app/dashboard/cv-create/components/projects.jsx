@@ -2,7 +2,8 @@
 import { useEffect, useState } from "react";
 import { Input,Textarea, Accordion, Badge, Button, Card } from "react-daisyui";
 import { collection, query, where, getDoc, getDocs, onSnapshot, Timestamp,doc, addDoc } from "firebase/firestore"; 
-import { db } from "@/app/firebase";
+import { auth, db } from "@/app/firebase/firebase";
+
 
 const Projects = ({userId}) => {
     const [projects, setProjects] = useState([]);
@@ -45,42 +46,26 @@ const Projects = ({userId}) => {
         getProjects();
     }, []);
 
-    return (  
-        <div>
-            <Accordion className="bg-black text-white">
-                <Accordion.Title className="text-xl font-medium text-white">
-                    Projects
-                </Accordion.Title>
-                <Accordion.Content>
-                        <div className="md:grid md:grid-cols-2 gap-2 mb-2 items-center">
-                            {projects.map((project, index) => (
-                                <div key={index}>
-                                    <Card>
-                                        <Card.Body>
-                                            <Card.Title tag="h2">{project.title}</Card.Title>
-                                            <p>{project.description}</p>
-                                        </Card.Body>
-                                    </Card>
-                                </div>
-                                
-                            ))}
-                        </div>
-                        
-                        <div className="form-control w-full grow">
-                            <label className="label">
-                                <span className="label-text">Add Project</span>
-                            </label>
-                            <div className="flex gap-4">
-                                <Input className="bg-white text-black grow" placeholder="Title" onChange={(e) => setProjectValue(e.target.value)} />
-                                <Input className="bg-white text-black grow" placeholder="Description" onChange={(e) => setDescriptionValue(e.target.value)} />
-                                <Button onClick={() => {addProject()}}>Save</Button>
-                            </div>
-                        </div>
-                        
-                </Accordion.Content>
-            </Accordion>
-        </div>
-    );
+    if (projects.length < 1) {
+        
+    } else {
+        return (  
+            <div>
+                <p className="font-bold text-[12px] md:text-lg lg:text-lg text-center mt-2 border-b">Projects</p>
+                {projects.map((project, index) => (
+                <div className="mt-5" key={index}>
+                    <p className="text-blue-600 font-bold mb-2 text-[8px] md:text-lg lg:text-lg">{project.title}</p>
+                    <div className="pl-3">
+                        <p>{project.description}</p>
+                    </div>
+                </div>
+                 ))}
+    
+            </div>
+        );
+    }
+
+    
 }
  
 export default Projects;

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Modal, Button, Input, Select, Accordion, Card } from "react-daisyui";
 import { collection, addDoc, query, where, getDoc, getDocs, onSnapshot, Timestamp } from "firebase/firestore"; 
-import { auth, db } from "@/app/firebase";
+import { auth, db } from "@/app/firebase/firebase";
 
 
 

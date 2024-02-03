@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { Button, Input, Accordion, Badge } from "react-daisyui";
 import { collection, addDoc, query, where, getDoc, getDocs, onSnapshot, Timestamp } from "firebase/firestore"; 
-import { auth, db } from "@/app/firebase";
+import { auth, db } from "@/app/firebase/firebase";
+
 
 const SkillWidget = ({user_id}) => {
     const [visibleSkill, setVisibleSkill] = useState(false);

@@ -19,6 +19,11 @@ import SkillAddEdit from "./templates/add-edit/skills";
 import AwardAddEdit from "./templates/add-edit/awards";
 import ProfileDetails from "./templates/add-edit/profile";
 import Profile from "./templates/template-one-components/profile";
+import ReferencesEditDelete from "./templates/add-edit/references";
+import ExperienceAddEdit from "./templates/add-edit/experience";
+import EducationAddEdit from "./templates/add-edit/education";
+import HobbiesAddEdit from "./templates/add-edit/hobbies";
+import ProjectsAddEdit from "./templates/add-edit/projects";
 
 
 // componentDidMount() {
@@ -50,8 +55,13 @@ const CvPageDesign = () => {
             <div className="bg-white pt-10 pl-5 pr-5">
                 <ProfileDetails userId={firebase_user.uid} />
                 <AboutAddEdit useId={firebase_user.uid} />
+                <ExperienceAddEdit user_id={firebase_user.uid} />
+                <EducationAddEdit userId={firebase_user.uid} />
                 <SkillAddEdit user_id={firebase_user.uid} />
                 <AwardAddEdit userId={firebase_user.uid} />
+                <ReferencesEditDelete userId={firebase_user.uid} />
+                <HobbiesAddEdit userId={firebase_user.uid} />
+                <ProjectsAddEdit userId={firebase_user.uid} />
             </div>
             <div className="md:col-span-3 p-10">
                 {/* tabs */}
@@ -65,7 +75,7 @@ const CvPageDesign = () => {
                         <TemplateOne userId={firebase_user.uid} />
                     </TabPanel>
                     <TabPanel>
-                        <TemplateTwo />
+                        <TemplateTwo userId={firebase_user.uid} />
                     </TabPanel>
                     <TabPanel>
                         <div className="bg-white p-10 border-t-4 border-blue-500">
