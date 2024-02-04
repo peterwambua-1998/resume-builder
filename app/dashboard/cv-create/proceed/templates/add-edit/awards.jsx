@@ -123,25 +123,22 @@ const AwardAddEdit = ({ userId }) => {
 
     return (
         <div className="mb-3">
-            <Accordion className="bg-black text-white">
-                <Accordion.Title className="text-xl font-medium text-white">
+            <Accordion className="bg-amber-400 text-white">
+                <Accordion.Title >
                     Awards
                 </Accordion.Title>
                 <Accordion.Content>
-                    <div className="md:grid md:grid-cols-2 gap-2 mb-2 items-center">
+                    <div className="flex gap-2 mb-2 items-center">
                         {awards.map((award, index) => (
                             <div key={index}>
-                                <Badge className="p-4">{award.award} <Button onClick={() => toggleVisibleEdit(award)} className="rouned-full"><FontAwesomeIcon icon={faPencilAlt} /></Button></Badge>
+                                <Badge className="p-4">{award.award} <FontAwesomeIcon  className="pl-3 hover:cursor-pointer" onClick={() => toggleVisibleEdit(award)} icon={faPencilAlt} /></Badge>
                             </div>
                         ))}
                     </div>
 
                     <div className="form-control w-full grow">
-                        <label className="label">
-                            <span className="label-text">Add Award</span>
-                        </label>
                         <div className="flex gap-4">
-                            <Button onClick={() => { toggleVisibleEdu() }}>Add</Button>
+                            <Button className="bg-amber-200 border-amber-500 text-black" onClick={() => { toggleVisibleEdu() }}>Add</Button>
                         </div>
                     </div>
 

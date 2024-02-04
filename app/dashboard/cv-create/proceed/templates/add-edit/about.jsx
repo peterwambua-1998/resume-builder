@@ -115,14 +115,14 @@ const AboutAddEdit = ({useId}) => {
                     </div>) :
                         
                     (
-                        <Accordion className="bg-black text-white">
-                            <Accordion.Title className="text-xl font-medium text-white">
-                                About Me
+                        <Accordion className="bg-amber-400 text-black">
+                            <Accordion.Title className="text-xl font-medium">
+                                <p className="text-base font-semibold">About</p>
                             </Accordion.Title>
                             <Accordion.Content>
                                     <div className="form-control w-full grow">
                                         <div className="">
-                                            <Button onClick={toggleVisible}>Add / Edit</Button>
+                                            <Button className="bg-amber-200 border-amber-500 text-black" onClick={toggleVisible}>Add / Edit</Button>
                                         </div>
                                     </div>
                             </Accordion.Content>

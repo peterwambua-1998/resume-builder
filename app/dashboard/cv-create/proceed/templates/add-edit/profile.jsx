@@ -1,6 +1,7 @@
 'use client'
 import { db } from "@/app/firebase/firebase";
 import { Timestamp, doc, onSnapshot, setDoc, updateDoc } from "firebase/firestore";
+import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
 import { useEffect, useState } from "react";
 import { Skeleton, Button, Modal, Accordion, Input, Select } from "react-daisyui";
 
@@ -21,6 +22,8 @@ const ProfileDetails = ({ userId }) => {
     var [location, setLocation] = useState(null);
     var [martialStatus, setMartialStatus] = useState(null);
     var [phoneNumber, setPhoneNumber] = useState(null);
+    var [file, setFile] = useState(null);
+    var [fileURL, setFileURL] = useState(null);
 
     // profile errors
     const [fullNameError, setFullNameError] = useState(null);
@@ -61,6 +64,18 @@ const ProfileDetails = ({ userId }) => {
     }
 
     async function addProfile() {
+        let downloadURL = '';
+        if (file) {
+            
+            const storage = getStorage();
+            const storageRef = ref(storage, 'user/' + userId);
+            let bytes = await file.arrayBuffer();
+            //const buffer = Buffer.from(bytes);
+            const uploadTask = uploadBytesResumable(storageRef, file);
+            downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+        }
+
+        console.log('url=='+downloadURL);
         if (fullName == null || !fullName) {
             setFullNameError('field required');
             return;
@@ -114,7 +129,8 @@ const ProfileDetails = ({ userId }) => {
                 DOB: dob,
                 martial_status: martialStatus,
                 phoneNumber: phoneNumber,
-                created_at: Timestamp.now()
+                file_url: downloadURL,
+                created_at: Timestamp.now(),
             }
             await setDoc(doc(db, "profile", userId), data);
         } catch (error) {
@@ -139,22 +155,30 @@ const ProfileDetails = ({ userId }) => {
 
         return (
             <div className="mb-3">
-                <Accordion defaultChecked className="bg-black text-white">
-                    <Accordion.Title className="text-xl font-medium text-white">
-                        Profile
+                <Accordion defaultChecked className="bg-amber-400 text-black">
+                    <Accordion.Title className="text-xl font-medium text-black">
+                        <p className="text-base font-semibold">Profile</p>
                     </Accordion.Title>
                     <Accordion.Content>
                         <div className="form-control w-full grow">
                             <div className="">
-                                <Button onClick={toggleVisible}>Add</Button>
+                                <Button className="bg-amber-200 border-amber-500 text-black" onClick={toggleVisible}>Add / Edit</Button>
                             </div>
                         </div>
                     </Accordion.Content>
                 </Accordion>
+
                 <Modal.Legacy open={visible} className="bg-white max-w-5xl">
                     <form>
                         <Modal.Header className="font-bold">About me</Modal.Header>
                         <Modal.Body className="p-0">
+                            <div className="md:grid md:grid-cols-3">
+                                <label className="label">
+                                    <span className="label-text text-black">Full name</span>
+                                </label>
+
+                                <Input className="bg-white" type="file"  onChange={(e) => setFile(e.target.files?.[0])} />
+                            </div>
                             <div className="md:grid md:grid-cols-3">
                                 <div>
                                     <div className="flex w-full component-preview p-4 items-center justify-center gap-2 font-sans">

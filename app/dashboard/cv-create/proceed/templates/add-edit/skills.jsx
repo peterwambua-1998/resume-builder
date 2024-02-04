@@ -101,38 +101,27 @@ const SkillAddEdit = ({ user_id }) => {
     return (
 
         <div className="mb-3">
-            <Accordion className="bg-black text-white">
-                <Accordion.Title className="text-xl font-medium text-white">
-                    Skills
+            <Accordion className="bg-amber-400 text-black">
+                <Accordion.Title>
+                <p className="text-base font-semibold">Skills</p>
                 </Accordion.Title>
                 <Accordion.Content>
                     <div className="flex gap-2 mb-2 items-center">
                         {skillData.map((edu, index) => (
                             <div key={index}>
-                                <Badge className="p-4">{edu.name} <Button onClick={() => toggleVisibleEdit(edu)} className="rouned-full"><FontAwesomeIcon icon={faPencilAlt} /></Button></Badge>
+                                <Badge className="p-4">{edu.name} <FontAwesomeIcon className="pl-3 hover:cursor-pointer" onClick={() => toggleVisibleEdit(edu)} icon={faPencilAlt} /></Badge>
                             </div>
                         ))}
                     </div>
                     <div className="form-control w-full grow">
                         <div className="">
-                            <Button onClick={toggleVisibleEdu}>Add</Button>
+                            <Button className="bg-amber-200 border-amber-500 text-black" onClick={toggleVisibleEdu}>Add</Button>
                         </div>
                     </div>
 
                 </Accordion.Content>
             </Accordion>
-            {/* <div className="flex justify-center mb-2 text-[5px] md:text-base lg:text-base">
-                <ul style={{ listStyleType: 'disc' }} className="text-black pl-10 pr-10 ">
-                    {skillData.map((skill, index) => (
-                        <li key={index}>{skill.name}</li>
-                    ))}
-                </ul>
-            </div>
-
-            <div className="p-2 mb-2">
-                <button onClick={() => toggleVisibleEdu()} className="text-[5px] md:text-base lg:text-base bg-amber-500 pt-2 pb-2 pl-4 pr-4 rounded-full w-full text-black"><FontAwesomeIcon icon={faCirclePlus} /> Add Skill</button>
-            </div> */}
-
+           
             {
                 selectedRecord ?
                     <Modal.Legacy open={visibleEdit} className="bg-white max-w-5xl">

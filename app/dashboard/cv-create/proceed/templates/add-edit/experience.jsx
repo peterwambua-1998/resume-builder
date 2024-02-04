@@ -256,21 +256,21 @@ const ExperienceAddEdit = ({ user_id }) => {
 
     return (
         <div className="mb-3">
-            <Accordion className="bg-black text-white">
-                <Accordion.Title className="text-xl font-medium text-white">
-                    Experience
+            <Accordion className="bg-amber-400 text-black">
+                <Accordion.Title className="font-medium">
+                    <p className="text-base font-semibold">Experience</p>
                 </Accordion.Title>
                 <Accordion.Content>
-                    <div className="flex gap-2 mb-2 items-center">
+                    <div className="flex gap-2 mb-5 items-center">
                         {experienceData.map((exp, index) => (
                             <div key={index}>
-                                <Badge className="p-4">{exp.title} <Button onClick={() => toggleVisibleEdit(exp)} className="rouned-full"><FontAwesomeIcon icon={faPencilAlt} /></Button></Badge>
+                                <Badge className="p-4">{exp.title} <FontAwesomeIcon icon={faPencilAlt} onClick={() => toggleVisibleEdit(exp)} className="pl-3 hover:cursor-pointer" /></Badge>
                             </div>
                         ))}
                     </div>
                     <div className="form-control w-full grow">
                         <div className="">
-                            <Button onClick={toggleVisibleEdu}>Add Experience</Button>
+                            <Button className="bg-amber-200 border-amber-500 text-black" onClick={toggleVisibleEdu}>Add Experience</Button>
                         </div>
                     </div>
                 </Accordion.Content>

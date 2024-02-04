@@ -225,21 +225,21 @@ const EducationAddEdit = ({ userId }) => {
 
     return (
         <div className="mb-3">
-            <Accordion className="bg-black text-white">
-                <Accordion.Title className="text-xl font-medium text-white">
-                    Education
+            <Accordion className="bg-amber-400 text-black">
+                <Accordion.Title>
+                    <p className="text-base font-semibold">Education</p>
                 </Accordion.Title>
                 <Accordion.Content>
                     <div className="flex gap-2 mb-2 items-center">
                         {eduData.map((edu, index) => (
                             <div key={index}>
-                                <Badge className="p-4">{edu.school} <Button onClick={() => toggleVisibleEdit(edu)} className="rouned-full"><FontAwesomeIcon icon={faPencilAlt} /></Button></Badge>
+                                <Badge className="p-4">{edu.school} <FontAwesomeIcon className="pl-3 hover:cursor-pointer" onClick={() => toggleVisibleEdit(edu)} icon={faPencilAlt} /></Badge>
                             </div>
                         ))}
                     </div>
                     <div className="form-control w-full grow">
                         <div className="">
-                            <Button onClick={toggleVisibleEdu}>Add Education</Button>
+                            <Button className="bg-amber-200 border-amber-500 text-black" onClick={toggleVisibleEdu}>Add Education</Button>
                         </div>
                     </div>
                 </Accordion.Content>
