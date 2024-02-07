@@ -22,6 +22,8 @@ import TemplateThree from "./templates/template-three";
 import Languages from "./templates/add-edit/languages";
 import LinksUser from "./templates/add-edit/links";
 import TemplateFour from "./templates/template-four";
+import ResumeParser from "../../resume-parser";
+import ResumeAi from "../../openiai/page";
 
 
 // componentDidMount() {
@@ -47,6 +49,14 @@ const CvPageDesign = () => {
 
     const [firebase_user, loading, error] = useAuthState(auth);
 
+    async function extractResume () {
+        console.log('waiting');
+        return await ResumeAi();
+    }
+
+    useEffect(() => {
+        extractResume();
+    }, []);
     
     return (
         <div className="md:grid md:grid-cols-4 bg-slate-200">

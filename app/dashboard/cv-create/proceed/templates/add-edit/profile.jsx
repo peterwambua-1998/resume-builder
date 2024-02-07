@@ -66,13 +66,13 @@ const ProfileDetails = ({ userId }) => {
     async function addProfile() {
         let downloadURL = '';
         if (file) {
-            
             const storage = getStorage();
             const storageRef = ref(storage, 'user/' + userId);
             let bytes = await file.arrayBuffer();
             //const buffer = Buffer.from(bytes);
             const uploadTask = uploadBytesResumable(storageRef, file);
             downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+            console.log(downloadURL);
         }
 
         console.log('url=='+downloadURL);

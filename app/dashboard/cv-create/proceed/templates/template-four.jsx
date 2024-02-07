@@ -3,6 +3,7 @@ import ProfilePhoto from "./template-one-components/profilePhoto";
 import profImage from '@/app/images/profile.jpeg';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope, faLocation, faPhone, faPhoneAlt } from "@fortawesome/free-solid-svg-icons";
+import { Badge, Progress } from "react-daisyui";
 
 const TemplateFour = ({ userId }) => {
     return (
@@ -71,6 +72,72 @@ const TemplateFour = ({ userId }) => {
                     <p className="text-sm text-[#808080]">Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia illo dolore suscipit veniam atque earum ea minus saepe non. Beatae vitae, similique aut tempora repellendus vel magnam dolor quas autem?</p>
                 </div>
             </div>
+
+
+            <div className="md:grid md:grid-cols-5 mt-10">
+                <div className="col-span-1 pl-2 mb-5">
+                </div>
+                <div className="col-span-4 pl-10 mb-5">
+                    <p className="font-bold text-lg  border-b">Hobbies</p>
+                </div>
+                
+                <div className="col-span-1 pl-2 text-right">
+                    <p></p>
+                    <p className="text-xs text-[#808080]"></p>
+                </div>
+                <div className="col-span-4 pl-10 mb-6">
+                <div className="md:grid md:grid-cols-4  md:gap-4">
+                    <div><Badge className="p-4">hOBBY ONE</Badge></div>
+                    <div><Badge className="p-4">hOBBY ONE</Badge></div>
+                    <div><Badge className="p-4">hOBBY ONE</Badge></div>
+                    <div><Badge className="p-4">hOBBY ONE</Badge></div>
+                </div>
+                </div>
+            </div>
+
+            <div className="md:grid md:grid-cols-5 mt-10">
+                <div className="col-span-1 pl-2 mb-5">
+                </div>
+                <div className="col-span-4 pl-10 mb-5">
+                    <p className="font-bold text-lg  border-b">Awards</p>
+                </div>
+                
+                <div className="col-span-1 pl-2 text-right">
+                    <p></p>
+                    <p className="text-xs text-[#808080]"></p>
+                </div>
+                <div className="col-span-4 pl-10 mb-6">
+                <div className="md:grid md:grid-cols-4  md:gap-4">
+                    <div><Badge className="p-4">hOBBY ONE</Badge></div>
+                    <div><Badge className="p-4">hOBBY ONE</Badge></div>
+                    <div><Badge className="p-4">hOBBY ONE</Badge></div>
+                    <div><Badge className="p-4">hOBBY ONE</Badge></div>
+                </div>
+                </div>
+            </div>
+
+
+            
+
+
+            <div className="md:grid md:grid-cols-5 mt-10">
+                <div className="col-span-1 pl-2 mb-5">
+                </div>
+                <div className="col-span-4 pl-10 mb-5">
+                    <p className="font-bold text-lg  border-b">References</p>
+                </div>
+                
+                <div className="col-span-1 pl-2 text-right">
+                    <p></p>
+                    <p className="text-xs text-[#808080]"></p>
+                </div>
+                <div className="col-span-4 pl-10 mb-6">
+                <div className="md:grid md:grid-cols-4  md:gap-4">
+                    <div><Progress className="w-56" color="primary" value={70} /></div>
+                </div>
+                </div>
+            </div>
+            
         </div>
     );
 }

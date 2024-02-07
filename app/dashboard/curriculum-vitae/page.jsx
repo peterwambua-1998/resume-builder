@@ -2,11 +2,12 @@
 import { app, db, auth } from "@/app/firebase/firebase";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { Menu, Card, Button, Loading } from "react-daisyui";
+import { Menu, Card, Button, Loading, FileInput, Toast, Alert } from "react-daisyui";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useRouter, useSearchParams } from "next/navigation";
-import { collection, query, where, getDoc, getDocs, onSnapshot, Timestamp,doc } from "firebase/firestore"; 
-import { getDownloadURL, getStorage, ref } from 'firebase/storage'
+import { collection, query, where, getDoc, getDocs, onSnapshot, Timestamp,doc, setDoc } from "firebase/firestore"; 
+import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
+import { useDropzone } from "react-dropzone";
 
 const CurriculumVitae = () => {
     const router = useRouter();
@@ -18,6 +19,10 @@ const CurriculumVitae = () => {
     let [abcd, setAbcd] = useState([]);
     const storage = getStorage();
     const [isLoading, setIsLoading] = useState(true);
+    const {acceptedFiles, getRootProps, getInputProps, isDragActive} = useDropzone();
+    let [userfile, setUserFile] = useState(null);
+    let [fileError, setFileError] = useState(null);
+    let [isShow, setIsShow] = useState(false);
 
     async function getCv() {
        try {
@@ -37,6 +42,7 @@ const CurriculumVitae = () => {
             });
        } catch (error) {
             console.log(error);
+            
             setErr('system error please try again');
        } 
     }
@@ -45,6 +51,52 @@ const CurriculumVitae = () => {
     // useEffect(() => {
     //     setUser(firebase_user.uid);
     // },[firebase_user]);
+
+    async function uploadResume () {
+        let downloadURL = '';
+        if (userfile) {
+            let fileType = userfile.type;
+            let fileName = userfile.name;
+
+            if (fileType != 'application/pdf') {
+                setFileError('File is not a PDF document');
+                setIsShow(true);
+                return;
+            } 
+
+            if (isShow) {
+                setIsShow(false);
+            }
+
+            // console.log(userfile.type);
+            // console.log(userfile.name);
+            try {
+                const storage = getStorage();
+                const storageRef = ref(storage, 'cv/' + firebase_user.uid);
+                let bytes = await userfile.arrayBuffer();
+                //const buffer = Buffer.from(bytes);
+                const uploadTask = uploadBytesResumable(storageRef, userfile);
+                downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+                const data = {
+                    filePath: downloadURL,
+                    fileName: fileName,
+                    created_at: Timestamp.now(),
+                }
+                await setDoc(doc(db, "uploaded-cv", firebase_user.uid), data);
+                let response = await fetch('/api/open-ai', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                      },
+                    body: JSON.stringify({ data: downloadURL }),
+                });
+                console.log(response);
+            } catch (error) {
+                setIsShow(true);
+                console.log(error);
+            }
+        }
+    }
 
     useEffect(() => {
         if (!loading) {
@@ -71,9 +123,9 @@ const CurriculumVitae = () => {
                                 <Menu.Item>
                                     <a className="active">My Curriculam Vitae</a>
                                 </Menu.Item>
-                                <Menu.Item>
+                                {/* <Menu.Item>
                                     <Link href='/dashboard/cv-create/proceed'>Create Cv</Link>
-                                </Menu.Item>
+                                </Menu.Item> */}
                             </Menu>
                         </div>
                         <div className="md:col-span-3">
@@ -96,10 +148,30 @@ const CurriculumVitae = () => {
                                         )
                                     )
 
-                                ) : (<div className="text-center">no data available</div>)
+                                ) : (
+                                    <div className="flex justify-center items-center flex-col gap-20 w-full h-[50vh] bg-slate-300 rounded-lg">
+                                        <div>
+
+                                            <label className="label">Don't have a cv?</label>
+                                            <Button><Link href='/dashboard/cv-create/proceed'>Create new Cv</Link></Button>
+                                        </div>
+                                        <div className="text-center">
+                                            <label className="label pl-14">Upload existing cv (only PDF)</label>
+                                            <div>
+                                                <FileInput className="bg-white mr-2" color="primary" onChange={(e) => setUserFile(e.target.files?.[0])} /><Button onClick={uploadResume}>Extract data</Button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )
                             }
                                 
                             </div>
+                            {
+                                isShow ? <Toast  vertical={'bottom'} horizontal={'end'}>
+                                <Alert status="info">{fileError}.</Alert>
+                            </Toast> :  <div></div>
+                            }
+                           
                         </div>
                     </div>
                 </div>
@@ -109,5 +181,6 @@ const CurriculumVitae = () => {
     );
 
 }
+
  
 export default CurriculumVitae;
