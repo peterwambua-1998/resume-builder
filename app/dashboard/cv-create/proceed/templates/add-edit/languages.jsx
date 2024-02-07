@@ -125,21 +125,21 @@ const Languages = ({userId}) => {
 
     return (  
         <div className="mb-3">
-            <Accordion className="bg-black text-white">
-                <Accordion.Title className="text-xl font-medium text-white">
-                    Languages
+            <Accordion className="bg-amber-400 text-black">
+                <Accordion.Title>
+                    <p className="text-base font-semibold">Languages</p>
                 </Accordion.Title>
                 <Accordion.Content>
-                    <div className="flex gap-2 mb-2 items-center">
+                    <div className="flex flex-wrap gap-2 mb-2 items-center">
                         {languages.map((lang, index) => (
                             <div key={index}>
-                                <Badge className="p-4">{lang.name} <Button onClick={() => toggleVisibleEdit(lang)} className="rouned-full"><FontAwesomeIcon icon={faPencilAlt} /></Button></Badge>
+                                <Badge className="p-4">{lang.name} <FontAwesomeIcon icon={faPencilAlt} onClick={() => toggleVisibleEdit(lang)} className="pl-3 hover:cursor-pointer" /></Badge>
                             </div>
                         ))}
                     </div>
                     <div className="form-control w-full grow">
                         <div className="flex gap-4">
-                            <Button onClick={() => { toggleVisible() }}>Add</Button>
+                            <Button className="bg-amber-200 border-amber-500 text-black" onClick={() => { toggleVisible() }}>Add</Button>
                         </div>
                     </div>
                 </Accordion.Content>

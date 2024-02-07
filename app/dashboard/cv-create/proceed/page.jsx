@@ -5,7 +5,6 @@ import { useEffect, useRef, useState } from "react";
 import { Divider, Loading, Button, Badge} from "react-daisyui";
 import { useAuthState } from "react-firebase-hooks/auth";
 import Image from "next/image";
-
 import TemplateOne from "./templates/template-one";
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
@@ -22,6 +21,7 @@ import ProjectsAddEdit from "./templates/add-edit/projects";
 import TemplateThree from "./templates/template-three";
 import Languages from "./templates/add-edit/languages";
 import LinksUser from "./templates/add-edit/links";
+import TemplateFour from "./templates/template-four";
 
 
 // componentDidMount() {
@@ -70,6 +70,7 @@ const CvPageDesign = () => {
                         <Tab selectedClassName="active-tab" className='m-tabs pt-2 pb-2 pl-4 pr-4 text-white font-semibold hover:cursor-pointer'>Template One</Tab>
                         <Tab selectedClassName="active-tab" className='m-tabs pt-2 pb-2 pl-4 pr-4 text-white font-semibold hover:cursor-pointer'>Template Two</Tab>
                         <Tab selectedClassName="active-tab" className='m-tabs pt-2 pb-2 pl-4 pr-4 text-white font-semibold hover:cursor-pointer'>Template Three</Tab>
+                        <Tab selectedClassName="active-tab" className='m-tabs pt-2 pb-2 pl-4 pr-4 text-white font-semibold hover:cursor-pointer'>Template Four</Tab>
                     </TabList>
                     <TabPanel>
                         <TemplateOne userId={firebase_user.uid} />
@@ -79,6 +80,9 @@ const CvPageDesign = () => {
                     </TabPanel>
                     <TabPanel>
                         <TemplateThree userId={firebase_user.uid} />
+                    </TabPanel>
+                    <TabPanel>
+                        <TemplateFour userId={firebase_user.uid} />
                     </TabPanel>
                 </Tabs>
                 

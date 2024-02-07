@@ -21,6 +21,7 @@
 html {
   background-color: #ffff !important;
 }
+
 body {
   color: #1E1E1E;
   background: #ffff;
@@ -52,7 +53,11 @@ body {
   background-size: contain;
 }
 
-.collapse[open].collapse-arrow>.collapse-title:after, .collapse-open.collapse-arrow>.collapse-title:after, .collapse-arrow:focus:not(.collapse-close)>.collapse-title:after, .collapse-arrow:not(.collapse-close)>input[type=checkbox]:checked~.collapse-title:after, .collapse-arrow:not(.collapse-close)>input[type=radio]:checked~.collapse-title:after {
+.collapse[open].collapse-arrow>.collapse-title:after,
+.collapse-open.collapse-arrow>.collapse-title:after,
+.collapse-arrow:focus:not(.collapse-close)>.collapse-title:after,
+.collapse-arrow:not(.collapse-close)>input[type=checkbox]:checked~.collapse-title:after,
+.collapse-arrow:not(.collapse-close)>input[type=radio]:checked~.collapse-title:after {
   color: white;
 }
 
@@ -84,7 +89,8 @@ body {
 }
 
 .dashed-text {
-  white-space: nowrap; /* Prevent text from wrapping */
+  white-space: nowrap;
+  /* Prevent text from wrapping */
 }
 
 
@@ -95,4 +101,14 @@ body {
   border: none;
   outline: none;
   color: black;
+}
+
+.m-opacity {
+  background-color: #f59f0bc5;
+}
+
+.m-bg {
+  background-image: url('images/cv-4-bg.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
 }

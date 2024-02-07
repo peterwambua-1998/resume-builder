@@ -261,7 +261,7 @@ const ExperienceAddEdit = ({ user_id }) => {
                     <p className="text-base font-semibold">Experience</p>
                 </Accordion.Title>
                 <Accordion.Content>
-                    <div className="flex gap-2 mb-5 items-center">
+                    <div className="flex flex-wrap gap-2 mb-5 items-center">
                         {experienceData.map((exp, index) => (
                             <div key={index}>
                                 <Badge className="p-4">{exp.title} <FontAwesomeIcon icon={faPencilAlt} onClick={() => toggleVisibleEdit(exp)} className="pl-3 hover:cursor-pointer" /></Badge>

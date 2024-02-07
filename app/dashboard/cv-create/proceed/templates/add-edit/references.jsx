@@ -189,19 +189,21 @@ const ReferencesEditDelete = ({ userId }) => {
 
     return (
         <div className="mb-3">
-            <Accordion className="bg-black text-white">
-                <Accordion.Title className="text-xl font-medium text-white">
-                    Referencess
+            <Accordion className="bg-amber-400 ">
+                <Accordion.Title className="text-xl font-medium">
+                    <p className="text-base font-semibold">Referencess</p>
                 </Accordion.Title>
                 <Accordion.Content>
-                    {refrences.map((refrence, index) => (
-                        <div key={index}>
-                            <Badge className="p-4">{refrence.referee_name} <Button onClick={() => toggleVisibleEdit(refrence)} className="rouned-full"><FontAwesomeIcon icon={faPencilAlt} /></Button></Badge>
-                        </div>
-                    ))}
+                    <div className="flex gap-2 mb-2 items-center">
+                        {refrences.map((refrence, index) => (
+                            <div key={index}>
+                                <Badge className="p-4">{refrence.referee_name} <FontAwesomeIcon className="pl-3 hover:cursor-pointer" onClick={() => toggleVisibleEdit(refrence)} icon={faPencilAlt} /></Badge>
+                            </div>
+                        ))}
+                    </div>
                     <div className="form-control w-full grow">
                         <div className="">
-                            <Button onClick={toggleVisibleEdu}>Add References</Button>
+                            <Button className="bg-amber-200 border-amber-500 text-black" onClick={toggleVisibleEdu}>Add References</Button>
                         </div>
                     </div>
                 </Accordion.Content>

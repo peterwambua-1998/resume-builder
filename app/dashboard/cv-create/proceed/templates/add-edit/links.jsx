@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { Accordion, Badge, Button, Modal, Input, Select } from "react-daisyui";
 
 
-const LinksUser = ({userId}) => {
+const LinksUser = ({ userId }) => {
     const [links, setLinks] = useState([]);
 
     const [nameValue, setNameValue] = useState(null);
@@ -121,23 +121,23 @@ const LinksUser = ({userId}) => {
         }
     }
 
-    return (  
+    return (
         <div className="mb-3">
-            <Accordion className="bg-black text-white">
-                <Accordion.Title className="text-xl font-medium text-white">
-                    Links
+            <Accordion className="bg-amber-400 text-black">
+                <Accordion.Title>
+                    <p className="text-base font-semibold">Links</p>
                 </Accordion.Title>
                 <Accordion.Content>
-                    <div className="flex gap-2 mb-2 items-center">
+                    <div className="flex flex-wrap gap-2 mb-2 items-center">
                         {links.map((link, index) => (
                             <div key={index}>
-                                <Badge className="p-4">{link.name} <Button onClick={() => toggleVisibleEdit(link)} className="rouned-full"><FontAwesomeIcon icon={faPencilAlt} /></Button></Badge>
+                                <Badge className="p-4">{link.name} <FontAwesomeIcon icon={faPencilAlt} onClick={() => toggleVisibleEdit(link)} className="pl-3 hover:cursor-pointer" /></Badge>
                             </div>
                         ))}
                     </div>
                     <div className="form-control w-full grow">
                         <div className="flex gap-4">
-                            <Button onClick={() => { toggleVisible() }}>Add</Button>
+                            <Button className="bg-amber-200 border-amber-500 text-black" onClick={() => { toggleVisible() }}>Add</Button>
                         </div>
                     </div>
                 </Accordion.Content>
@@ -175,42 +175,42 @@ const LinksUser = ({userId}) => {
             </Modal.Legacy>
 
             {
-                selectedRecord ? 
-                <Modal.Legacy open={visibleEdit} className="bg-white max-w-5xl">
-                <form>
-                    <Modal.Header className="font-bold text-black">Link</Modal.Header>
-                    <Modal.Body className="p-0">
-                        <div className="form-control w-full">
-                            <label className="label">
-                                <span className="label-text text-black">Link title</span>
-                            </label>
-                            <div className="flex gap-4">
-                                <Input defaultValue={selectedRecord.name ? selectedRecord.name : ''} className="bg-white text-black grow" placeholder="EX: website" onChange={(e) => setNameValue(e.target.value)} />
-                                <div className="text-red-600 text-sm">{titleValueError}</div>
-                            </div>
-                        </div>
+                selectedRecord ?
+                    <Modal.Legacy open={visibleEdit} className="bg-white max-w-5xl">
+                        <form>
+                            <Modal.Header className="font-bold text-black">Link</Modal.Header>
+                            <Modal.Body className="p-0">
+                                <div className="form-control w-full">
+                                    <label className="label">
+                                        <span className="label-text text-black">Link title</span>
+                                    </label>
+                                    <div className="flex gap-4">
+                                        <Input defaultValue={selectedRecord.name ? selectedRecord.name : ''} className="bg-white text-black grow" placeholder="EX: website" onChange={(e) => setNameValue(e.target.value)} />
+                                        <div className="text-red-600 text-sm">{titleValueError}</div>
+                                    </div>
+                                </div>
 
-                        <div className="form-control w-full">
-                            <label className="label">
-                                <span className="label-text text-black">Link</span>
-                            </label>
-                            <div className="flex gap-4">
-                                <Input defaultValue={selectedRecord.link ? selectedRecord.link : ''} className="bg-white text-black grow" placeholder="EX: www.website.com" onChange={(e) => setLinkValue(e.target.value)} />
-                                <div className="text-red-600 text-sm">{linkValueError}</div>
-                            </div>
-                        </div>
-                    </Modal.Body>
-                    <Modal.Actions>
-                        <Button type="button" onClick={() => toggleVisibleEdit(null)} >Close</Button>
-                        <Button type="button" className="bg-[#F59E0B] text-white border-none" onClick={() => saveEditDetails(selectedRecord.id)}>Save</Button>
-                    </Modal.Actions>
-                </form>
-            </Modal.Legacy>
-                :
-                <div></div>
+                                <div className="form-control w-full">
+                                    <label className="label">
+                                        <span className="label-text text-black">Link</span>
+                                    </label>
+                                    <div className="flex gap-4">
+                                        <Input defaultValue={selectedRecord.link ? selectedRecord.link : ''} className="bg-white text-black grow" placeholder="EX: www.website.com" onChange={(e) => setLinkValue(e.target.value)} />
+                                        <div className="text-red-600 text-sm">{linkValueError}</div>
+                                    </div>
+                                </div>
+                            </Modal.Body>
+                            <Modal.Actions>
+                                <Button type="button" onClick={() => toggleVisibleEdit(null)} >Close</Button>
+                                <Button type="button" className="bg-[#F59E0B] text-white border-none" onClick={() => saveEditDetails(selectedRecord.id)}>Save</Button>
+                            </Modal.Actions>
+                        </form>
+                    </Modal.Legacy>
+                    :
+                    <div></div>
             }
         </div>
     );
 }
- 
+
 export default LinksUser;

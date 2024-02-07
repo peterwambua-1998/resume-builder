@@ -89,9 +89,9 @@ const HobbiesAddEdit = ({ userId }) => {
                 title: hobbbyValue,
                 created_at: Timestamp.now()
             }
-            
+
             await updateDoc(doc(db, "hobbies", recordId), data);
-            
+
         } catch (error) {
             console.log(error);
         }
@@ -103,21 +103,21 @@ const HobbiesAddEdit = ({ userId }) => {
 
     return (
         <div className="mb-3">
-            <Accordion  className="bg-black text-white">
-                <Accordion.Title className="text-xl font-medium text-white">
-                    Hobbies
+            <Accordion className="bg-amber-400 text-black">
+                <Accordion.Title>
+                    <p className="text-base font-semibold">Hobbies</p>
                 </Accordion.Title>
                 <Accordion.Content>
-                    <div className="flex gap-2 mb-2 items-center">
+                    <div className="flex flex-wrap gap-2 mb-2 items-center">
                         {hobbies.map((hobby, index) => (
                             <div key={index}>
-                                <Badge className="p-4">{hobby.title} <Button onClick={() => toggleVisibleEdit(hobby)} className="rouned-full"><FontAwesomeIcon icon={faPencilAlt} /></Button></Badge>
+                                <Badge className="p-4">{hobby.title} <FontAwesomeIcon className="pl-3 hover:cursor-pointer" onClick={() => toggleVisibleEdit(hobby)} icon={faPencilAlt} /></Badge>
                             </div>
                         ))}
                     </div>
                     <div className="form-control w-full grow">
                         <div className="flex gap-4">
-                            <Button onClick={() => { toggleVisible() }}>Add Hobby</Button>
+                            <Button className="bg-amber-200 border-amber-500 text-black" onClick={() => { toggleVisible() }}>Add Hobby</Button>
                         </div>
                     </div>
 
@@ -125,29 +125,29 @@ const HobbiesAddEdit = ({ userId }) => {
             </Accordion>
 
             {
-                selectedRecord ? 
-                <Modal.Legacy open={visibleEdit} className="bg-white max-w-5xl">
-                    <form>
-                        <Modal.Header className="font-bold text-black">Hobby</Modal.Header>
-                        <Modal.Body className="p-0">
-                            <div className="form-control w-full">
-                                <label className="label">
-                                    <span className="label-text text-black">Add Hobby</span>
-                                </label>
-                                <div className="flex gap-4">
-                                    <Input defaultValue={selectedRecord.title ? selectedRecord.title : ''} className="bg-white text-black grow" placeholder="Ex: singing" onChange={(e) => setHobbyValue(e.target.value)} />
-                                    <div className="text-red-600 text-sm">{hobbbyError}</div>
+                selectedRecord ?
+                    <Modal.Legacy open={visibleEdit} className="bg-white max-w-5xl">
+                        <form>
+                            <Modal.Header className="font-bold text-black">Hobby</Modal.Header>
+                            <Modal.Body className="p-0">
+                                <div className="form-control w-full">
+                                    <label className="label">
+                                        <span className="label-text text-black">Add Hobby</span>
+                                    </label>
+                                    <div className="flex gap-4">
+                                        <Input defaultValue={selectedRecord.title ? selectedRecord.title : ''} className="bg-white text-black grow" placeholder="Ex: singing" onChange={(e) => setHobbyValue(e.target.value)} />
+                                        <div className="text-red-600 text-sm">{hobbbyError}</div>
+                                    </div>
                                 </div>
-                            </div>
-                        </Modal.Body>
-                        <Modal.Actions>
-                            <Button type="button" onClick={() => toggleVisibleEdit(null)} >Close</Button>
-                            <Button type="button" className="bg-[#F59E0B] text-white border-none" onClick={() => saveEditDetails(selectedRecord.id)}>Save</Button>
-                        </Modal.Actions>
-                    </form>
-                </Modal.Legacy>
-                :
-                <div></div>
+                            </Modal.Body>
+                            <Modal.Actions>
+                                <Button type="button" onClick={() => toggleVisibleEdit(null)} >Close</Button>
+                                <Button type="button" className="bg-[#F59E0B] text-white border-none" onClick={() => saveEditDetails(selectedRecord.id)}>Save</Button>
+                            </Modal.Actions>
+                        </form>
+                    </Modal.Legacy>
+                    :
+                    <div></div>
             }
 
             <Modal.Legacy open={visible} className="bg-white max-w-5xl">

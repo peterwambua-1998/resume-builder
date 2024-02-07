@@ -125,21 +125,21 @@ const ProjectsAddEdit = ({ userId }) => {
 
     return (
         <div>
-            <Accordion className="bg-black text-white">
-                <Accordion.Title className="text-xl font-medium text-white">
-                    Projects
+            <Accordion className="bg-amber-400 text-black">
+                <Accordion.Title>
+                    <p className="text-base font-semibold">Projects</p>
                 </Accordion.Title>
                 <Accordion.Content>
-                    <div className="flex gap-2 mb-2 items-center">
+                    <div className="flex flex-wrap gap-2 mb-5 items-center">
                         {projects.map((project, index) => (
                             <div key={index}>
-                                <Badge className="p-4">{project.title} <Button onClick={() => toggleVisibleEdit(project)} className="rouned-full"><FontAwesomeIcon icon={faPencilAlt} /></Button></Badge>
+                                <Badge className="p-4">{project.title} <FontAwesomeIcon className="pl-3 hover:cursor-pointer" icon={faPencilAlt} onClick={() => toggleVisibleEdit(project)} /></Badge>
                             </div>
                         ))}
                     </div>
                     <div className="form-control w-full grow">
                         <div className="flex gap-4">
-                            <Button onClick={() => { toggleVisible() }}>Add</Button>
+                            <Button className="bg-amber-200 border-amber-500 text-black" onClick={() => { toggleVisible() }}>Add</Button>
                         </div>
                     </div>
                 </Accordion.Content>
