@@ -24,6 +24,7 @@ import LinksUser from "./templates/add-edit/links";
 import TemplateFour from "./templates/template-four";
 import ResumeParser from "../../resume-parser";
 import ResumeAi from "../../openiai/page";
+import TemplateFive from "./templates/template-five";
 
 
 // componentDidMount() {
@@ -76,11 +77,12 @@ const CvPageDesign = () => {
             <div className="md:col-span-3 p-10">
                 {/* tabs */}
                 <Tabs>
-                    <TabList className='flex gap-4 bg-blue-950 p-3 rounded-lg mb-5'>
+                    <TabList className='flex gap-4 bg-blue-950 p-3 rounded-lg mb-5 text-sm'>
                         <Tab selectedClassName="active-tab" className='m-tabs pt-2 pb-2 pl-4 pr-4 text-white font-semibold hover:cursor-pointer'>Template One</Tab>
                         <Tab selectedClassName="active-tab" className='m-tabs pt-2 pb-2 pl-4 pr-4 text-white font-semibold hover:cursor-pointer'>Template Two</Tab>
                         <Tab selectedClassName="active-tab" className='m-tabs pt-2 pb-2 pl-4 pr-4 text-white font-semibold hover:cursor-pointer'>Template Three</Tab>
                         <Tab selectedClassName="active-tab" className='m-tabs pt-2 pb-2 pl-4 pr-4 text-white font-semibold hover:cursor-pointer'>Template Four</Tab>
+                        <Tab selectedClassName="active-tab" className='m-tabs pt-2 pb-2 pl-4 pr-4 text-white font-semibold hover:cursor-pointer'>Template Five</Tab>
                     </TabList>
                     <TabPanel>
                         <TemplateOne userId={firebase_user.uid} />
@@ -93,6 +95,9 @@ const CvPageDesign = () => {
                     </TabPanel>
                     <TabPanel>
                         <TemplateFour userId={firebase_user.uid} />
+                    </TabPanel>
+                    <TabPanel>
+                        <TemplateFive userId={firebase_user.uid} />
                     </TabPanel>
                 </Tabs>
                 

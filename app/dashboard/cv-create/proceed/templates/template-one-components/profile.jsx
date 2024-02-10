@@ -51,15 +51,15 @@ const Profile = ({ userId }) => {
                                 <div className="grid grid-cols-3 md:grid md:grid-cols-3">
                                     <div className="flex flex-col items-center w-full ">
                                         <FontAwesomeIcon icon={faLocationPin} className="text-amber-500 text-xs md:w-[22px]" />
-                                        <p className="text-[8px] md:text-base lg:text-base">{profile.location}</p>
+                                        <p className="text-[8px] md:text-sm lg:text-sm">{profile.location}</p>
                                     </div>
                                     <div className="flex flex-col items-center w-full">
                                         <FontAwesomeIcon icon={faEnvelope} className="text-amber-500 text-xs md:w-[22px]" />
-                                        <p className="text-[8px] md:text-base lg:text-base">{profile.email}</p>
+                                        <p className="text-[8px] md:text-sm lg:text-sm">{profile.email}</p>
                                     </div>
                                     <div className="flex flex-col items-center w-full">
                                         <FontAwesomeIcon icon={faPhone} className="text-amber-500 text-xs md:w-[22px]" />
-                                        <p className="text-[8px] md:text-base lg:text-base">{profile.phoneNumber}</p>
+                                        <p className="text-[8px] md:text-sm lg:text-sm">{profile.phoneNumber}</p>
                                     </div>
                                 </div>
                         </div>

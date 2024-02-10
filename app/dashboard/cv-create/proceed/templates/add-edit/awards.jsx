@@ -4,7 +4,7 @@ import { Input, Textarea, Accordion, Badge, Button, Card, Modal } from "react-da
 import { collection, query, where, getDoc, getDocs, onSnapshot, Timestamp, doc, addDoc, updateDoc } from "firebase/firestore";
 import { db } from "@/app/firebase/firebase";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPencilAlt } from "@fortawesome/free-solid-svg-icons";
+import { faPencilAlt, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 const AwardAddEdit = ({ userId }) => {
     ;
@@ -131,7 +131,11 @@ const AwardAddEdit = ({ userId }) => {
                     <div className="flex gap-2 mb-2 items-center">
                         {awards.map((award, index) => (
                             <div key={index}>
-                                <Badge className="p-4">{award.award} <FontAwesomeIcon className="pl-3 hover:cursor-pointer" onClick={() => toggleVisibleEdit(award)} icon={faPencilAlt} /></Badge>
+                                <Badge className="flex flex-wrap">
+                                    {award.award} peter wambua loves
+                                    <FontAwesomeIcon className="pl-3 hover:cursor-pointer" onClick={() => toggleVisibleEdit(award)} icon={faPencilAlt} />
+                                    <FontAwesomeIcon className="pl-3 hover:cursor-pointer" onClick={() => toggleVisibleEdit(award)} icon={faTrash} />
+                                </Badge>
                             </div>
                         ))}
                     </div>
