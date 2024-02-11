@@ -4,8 +4,38 @@ import profImage from '@/app/images/profile.jpeg';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope, faLocation, faPhone, faPhoneAlt } from "@fortawesome/free-solid-svg-icons";
 import { Badge, Progress } from "react-daisyui";
+import AboutMe from "./template-four-components/about";
+import { useEffect } from "react";
+import { doc, onSnapshot } from "firebase/firestore";
+import { db } from "@/app/firebase/firebase";
 
 const TemplateFour = ({ userId }) => {
+
+
+    const [profile, setProfile] = useState(null);
+    let [loading, setLoading] = useState(true);
+
+
+    function getProfile() {
+        try {
+            const usb = onSnapshot(doc(db, 'profile', userId), doc => {
+                if (doc.data()) {
+                    console.log(doc.data());
+                    setProfile(doc.data());
+                } else {
+                    setProfile(null);
+                }
+            });
+
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    useEffect(() => {
+        getProfile();
+    }, [])
+
     return (
         <div className=" m-bg p-6">
             {/* top area */}
@@ -15,13 +45,30 @@ const TemplateFour = ({ userId }) => {
                 </div>
                 <div className="col-span-4 pl-10">
                     <div className="border-b  pb-5">
-                        <p className="text-lg font-bold text-cyan-400">Peter Wambua Mutuku</p>
-                        <p className="font-semibold text-[#808080]">business consultant</p>
+                        {
+                            profile == null ? (<div>Loading...</div>) : (
+                                <div>
+                                    <p className="text-lg font-bold text-cyan-400">{profile.full_name}</p>
+                                    <p className="font-semibold text-[#808080] mt-1">{profile.professionTitle}</p>
+                                </div>
+                               
+                            )
+                        }
+                        
+                       <AboutMe userId={userId} />
                     </div>
                     <div className="pt-5 grid grid-cols-2 text-sm">
-                        <p><span><FontAwesomeIcon icon={faPhone} className="text-cyan-400" /> 0789 100 789</span></p>
-                        <p><span><FontAwesomeIcon icon={faEnvelope} className="text-cyan-400" /> 0789 100 789</span></p>
-                        <p className="mt-4"><span><FontAwesomeIcon icon={faLocation} className="text-cyan-400" /> 0789 100 789</span></p>
+                        {
+                            profile == null ? (<div>Loading...</div>) : (
+                                <div>
+                                    <p><span><FontAwesomeIcon icon={faPhone} className="text-cyan-400" /> {profile.phoneNumber}</span></p>
+                                    <p><span><FontAwesomeIcon icon={faEnvelope} className="text-cyan-400" /> {profile.email}</span></p>
+                                    <p className="mt-4"><span><FontAwesomeIcon icon={faLocation} className="text-cyan-400" /> {profile.location}</span></p>
+                                </div>
+                               
+                            )
+                        }
+                        
                     </div>
                 </div>
             </div>
