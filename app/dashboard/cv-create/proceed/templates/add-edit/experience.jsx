@@ -4,12 +4,13 @@ import { collection, addDoc, Timestamp, query, where, onSnapshot, updateDoc, doc
 import { db } from "@/app/firebase/firebase";
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPencilAlt } from "@fortawesome/free-solid-svg-icons";
+import { faPencilAlt, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 
 const ExperienceAddEdit = ({ user_id }) => {
     const [visible, setVisible] = useState(false);
     var [visibleEdit, setVisibleEdit] = useState(false);
+    var [visibleDelete, setVisibleDelete] = useState(false);
 
     var [companyName, setCompanyName] = useState(null);
     var [currentEmployment, setCurrentEmployment] = useState(null);
@@ -23,6 +24,7 @@ const ExperienceAddEdit = ({ user_id }) => {
     var [experienceData, setExperienceData] = useState([]);
 
     var [selectedRecord, setSelectedRecord] = useState(null);
+    var [selectedRecordDelete, setSelectedRecordDelete] = useState(null);
 
     const [err, setErr] = useState(null);
 
@@ -33,6 +35,16 @@ const ExperienceAddEdit = ({ user_id }) => {
     const toggleVisibleEdit = (record) => {
         console.log(record);
         setVisibleEdit(!visibleEdit);
+        if (record) {
+            addRespRecords(record);
+            setSelectedRecord(record);
+        } else {
+            setSelectedRecord(null);
+        }
+    };
+
+    const toggleVisibleDelete = (record) => {
+        setVisibleDelete(!visibleDelete);
         if (record) {
             addRespRecords(record);
             setSelectedRecord(record);
@@ -261,10 +273,14 @@ const ExperienceAddEdit = ({ user_id }) => {
                     <p className="text-base font-semibold">Experience</p>
                 </Accordion.Title>
                 <Accordion.Content>
-                    <div className="flex flex-wrap gap-2 mb-5 items-center">
+                    <div className="mb-5">
                         {experienceData.map((exp, index) => (
-                            <div key={index}>
-                                <Badge className="p-4">{exp.title} <FontAwesomeIcon icon={faPencilAlt} onClick={() => toggleVisibleEdit(exp)} className="pl-3 hover:cursor-pointer" /></Badge>
+                            <div key={index} className="mb-2">
+                                <Badge className="p-4">
+                                    {exp.companyName}
+                                    <FontAwesomeIcon icon={faPencilAlt} onClick={() => toggleVisibleEdit(exp)} className="pl-3 pr-3 hover:cursor-pointer" /> 
+                                    <FontAwesomeIcon icon={faTrash} className="hover:cursor-pointe" />
+                                </Badge>
                             </div>
                         ))}
                     </div>

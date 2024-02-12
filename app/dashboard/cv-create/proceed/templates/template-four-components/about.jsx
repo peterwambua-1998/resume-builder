@@ -20,6 +20,7 @@ const AboutMe = ({ useId }) => {
 
 
     async function getAbout() {
+        console.log(useId);
         try {
             const usb = onSnapshot(doc(db, 'about', useId), doc => {
                 if (doc.data()) {

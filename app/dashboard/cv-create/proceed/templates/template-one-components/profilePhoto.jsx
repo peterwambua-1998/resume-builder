@@ -37,7 +37,6 @@ const ProfilePhoto = ({userId}) => {
     } 
 
     if (profile) {
-        console.log(profile);
 
         return (  
             <div>
