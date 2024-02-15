@@ -3,7 +3,7 @@ import { faCirclePlus, faEnvelope, faLocationPin, faPhone } from "@fortawesome/f
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import profileImg from '@/app/images/profile.jpeg';
-import { Button, Modal, Input, Skeleton } from "react-daisyui";
+import { Button, Modal, Input, Skeleton, Loading } from "react-daisyui";
 import { useId, useRef, useState } from "react";
 import AboutMe from "./template-one-components/about";
 import { auth } from "@/app/firebase/firebase";
@@ -29,19 +29,12 @@ const TemplateOne = ({ userId }) => {
     const toggleVisibleEdu = () => {
         setVisibleEdu(!visibleEdu);
     };
+    const [mDownload, setMDownload] = useState(false);
     const pdfRef = useRef();
 
 
     function downloadPDF () {
-        // let template = document.getElementById('template-one');
-        // var doc = new jsPDF();
-        // doc.html(template, {
-        //     callback: (doc) => {
-        //         doc.save();
-        //     },
-        //     x: 10,
-        //     y: 10
-        // })
+        setMDownload(true);
         let input = pdfRef.current;
         html2canvas(input).then((canvas) => {
             let imageData = canvas.toDataURL('image/png');
@@ -55,14 +48,19 @@ const TemplateOne = ({ userId }) => {
             let imgY = 0;
             pdf.addImage(imageData, 'PNG', imgX, imgY, imgWidth * ratio, imgHeight * ratio);
             pdf.save();
-        })
+            setMDownload(false);
+        });
     }
 
 
     return (
-        <div  >
+        <div>
             <div className="flex flex-row-reverse mb-4">
-                <Button onClick={() => downloadPDF()} className="bg-blue-300 border-blue-300 text-black">download pdf</Button>
+            {/* className="bg-blue-300 border-blue-300 text-black" */}
+                <Button onClick={() => downloadPDF()} color="primary">
+                    {mDownload == true ?  <Loading /> : ''}
+                    download pdf
+                </Button>
             </div>
             <div id="template-one" ref={pdfRef} className=" bg-white ">
                 {/* top dark area */}
@@ -80,10 +78,7 @@ const TemplateOne = ({ userId }) => {
                     </div>
                     <div className="col-span-3 md:pr-10 lg:pr-10">
                         <p className="mb-2 font-bold text-indigo-950 text-xs md:text-lg lg:text-lg">Profile </p>
-
                         <AboutMe useId={userId} />
-
-
                     </div>
                 </div>
                 {/* profile photo and about */}
