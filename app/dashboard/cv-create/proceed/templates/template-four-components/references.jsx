@@ -69,7 +69,7 @@ const References = ({ userId }) => {
                 <div className="col-span-4 pl-10 ">
                     <div className="md:flex md:gap-20">
                     {refrences.length > 0 ? refrences.map((refrence, index) => (
-                        <div className="text-sm text-[#808080]">
+                        <div className="text-sm text-[#808080]" key={index}>
                             <p className="font-bold text-cyan-400 text-base">{refrence.referee_name}</p>
                             <p>{refrence.organization}</p>
                             <p>{refrence.role}</p>

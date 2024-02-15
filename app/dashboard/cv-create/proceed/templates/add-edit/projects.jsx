@@ -1,10 +1,10 @@
 'use client'
 import { useEffect, useState } from "react";
-import { Input, Accordion, Button, Modal, Badge } from "react-daisyui";
-import { collection, Timestamp, addDoc, query, where, onSnapshot, updateDoc, doc } from "firebase/firestore";
+import { Input, Accordion, Button, Modal, Badge, Loading } from "react-daisyui";
+import { collection, Timestamp, addDoc, query, where, onSnapshot, updateDoc, doc, deleteDoc } from "firebase/firestore";
 import { db } from "@/app/firebase/firebase";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPencilAlt } from "@fortawesome/free-solid-svg-icons";
+import { faPencilAlt, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 const ProjectsAddEdit = ({ userId }) => {
     const [projects, setProjects] = useState([]);
@@ -17,8 +17,11 @@ const ProjectsAddEdit = ({ userId }) => {
 
     const [visible, setVisible] = useState(false);
     var [visibleEdit, setVisibleEdit] = useState(false);
+    var [visibleDelete, setVisibleDelete] = useState(false);
 
     var [selectedRecord, setSelectedRecord] = useState(null);
+    var [selectedRecordDelete, setSelectedRecordDelete] = useState(null);
+    var [loadingDelete, setLoadingDelete] = useState(false);
 
     const toggleVisible = () => {
         setVisible(!visible);
@@ -31,6 +34,15 @@ const ProjectsAddEdit = ({ userId }) => {
             setSelectedRecord(record);
         } else {
             setSelectedRecord(null);
+        }
+    };
+
+    const toggleVisibleDelete = (record) => {
+        setVisibleDelete(!visibleDelete);
+        if (record) {
+            setSelectedRecordDelete(record);
+        } else {
+            setSelectedRecordDelete(null);
         }
     };
 
@@ -87,6 +99,17 @@ const ProjectsAddEdit = ({ userId }) => {
         }
     }
 
+    async function deleteRecord() {
+        try {
+            setLoadingDelete(true);
+            await deleteDoc(doc(db, 'project', selectedRecordDelete.id));
+            toggleVisibleDelete(null);
+            setLoadingDelete(false);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     useEffect(() => {
         getProjects();
     }, []);
@@ -130,10 +153,14 @@ const ProjectsAddEdit = ({ userId }) => {
                     <p className="text-base font-semibold">Projects</p>
                 </Accordion.Title>
                 <Accordion.Content>
-                    <div className="flex flex-wrap gap-2 mb-5 items-center">
+                    <div className=" mb-5 ">
                         {projects.map((project, index) => (
-                            <div key={index}>
-                                <Badge className="p-4">{project.title} <FontAwesomeIcon className="pl-3 hover:cursor-pointer" icon={faPencilAlt} onClick={() => toggleVisibleEdit(project)} /></Badge>
+                            <div key={index} className="mb-2">
+                                <Badge className="p-4">{project.title}
+                                    <FontAwesomeIcon className="pl-3 pr-3 hover:cursor-pointer" icon={faPencilAlt} onClick={() => toggleVisibleEdit(project)} />
+                                    <FontAwesomeIcon icon={faTrash} onClick={() => toggleVisibleDelete(project)} className="hover:cursor-pointer" />
+                                </Badge>
+
                             </div>
                         ))}
                     </div>
@@ -144,6 +171,26 @@ const ProjectsAddEdit = ({ userId }) => {
                     </div>
                 </Accordion.Content>
             </Accordion>
+
+            {
+                selectedRecordDelete ? (
+                    <Modal.Legacy open={visibleDelete} className="bg-white">
+                        <Modal.Header className="font-bold text-base">Delete Experience</Modal.Header>
+                        <Modal.Body className="p-0">
+                            <p>Delete project {selectedRecordDelete.title}</p>
+                        </Modal.Body>
+                        <Modal.Actions>
+                            <Button type="button" onClick={toggleVisibleDelete} >Close</Button>
+                            <Button type="button" onClick={deleteRecord} className="bg-[#fca5a5] border-red-600 text-black">
+                                {
+                                    loadingDelete ? <Loading /> : ""
+                                }
+                                Delete
+                            </Button>
+                        </Modal.Actions>
+                    </Modal.Legacy>
+                ) : <div></div>
+            }
 
             {
                 selectedRecord ?

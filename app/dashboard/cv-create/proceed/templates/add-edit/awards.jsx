@@ -1,13 +1,12 @@
 'use client'
 import { useEffect, useState } from "react";
-import { Input, Textarea, Accordion, Badge, Button, Card, Modal } from "react-daisyui";
-import { collection, query, where, getDoc, getDocs, onSnapshot, Timestamp, doc, addDoc, updateDoc } from "firebase/firestore";
+import { Input, Textarea, Accordion, Badge, Button, Card, Modal, Loading } from "react-daisyui";
+import { collection, query, where, getDoc, getDocs, onSnapshot, Timestamp, doc, addDoc, updateDoc, deleteDoc } from "firebase/firestore";
 import { db } from "@/app/firebase/firebase";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencilAlt, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 const AwardAddEdit = ({ userId }) => {
-    ;
     var [awards, setAwards] = useState([]);
     var [awardValue, setAwardValue] = useState(null);
     var [descriptionValue, setDescriptionValue] = useState(null);
@@ -16,6 +15,10 @@ const AwardAddEdit = ({ userId }) => {
     var [titleError, setTitleError] = useState(null);
     var [descriptionError, setDescriptionError] = useState(null);
     var [selectedRecord, setSelectedRecord] = useState(null);
+
+    var [visibleDelete, setVisibleDelete] = useState(false);
+    var [selectedRecordDelete, setSelectedRecordDelete] = useState(null);
+    var [loadingDelete, setLoadingDelete] = useState(false);
 
     const toggleVisibleEdu = () => {
         setVisibleEdu(!visibleEdu);
@@ -28,6 +31,15 @@ const AwardAddEdit = ({ userId }) => {
             setSelectedRecord(record);
         } else {
             setSelectedRecord(null);
+        }
+    };
+
+    const toggleVisibleDelete = (record) => {
+        setVisibleDelete(!visibleDelete);
+        if (record) {
+            setSelectedRecordDelete(record);
+        } else {
+            setSelectedRecordDelete(null);
         }
     };
 
@@ -117,6 +129,17 @@ const AwardAddEdit = ({ userId }) => {
         }
     }
 
+    async function deleteRecord() {
+        try {
+            setLoadingDelete(true);
+            await deleteDoc(doc(db, 'award', selectedRecordDelete.id));
+            toggleVisibleDelete(null);
+            setLoadingDelete(false);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     useEffect(() => {
         getAwards();
     }, []);
@@ -128,13 +151,13 @@ const AwardAddEdit = ({ userId }) => {
                     <p className="text-base font-semibold">Awards</p>
                 </Accordion.Title>
                 <Accordion.Content>
-                    <div className="flex gap-2 mb-2 items-center">
+                    <div className=" mb-2 ">
                         {awards.map((award, index) => (
-                            <div key={index}>
-                                <Badge className="flex flex-wrap">
-                                    {award.award} peter wambua loves
-                                    <FontAwesomeIcon className="pl-3 hover:cursor-pointer" onClick={() => toggleVisibleEdit(award)} icon={faPencilAlt} />
-                                    <FontAwesomeIcon className="pl-3 hover:cursor-pointer" onClick={() => toggleVisibleEdit(award)} icon={faTrash} />
+                            <div key={index} className="mb-2">
+                                <Badge className="w-fit">
+                                    {award.award}
+                                    <FontAwesomeIcon className="pl-3 pr-3 hover:cursor-pointer" onClick={() => toggleVisibleEdit(award)} icon={faPencilAlt} />
+                                    <FontAwesomeIcon icon={faTrash} onClick={() => toggleVisibleDelete(award)} className="hover:cursor-pointer" />
                                 </Badge>
                             </div>
                         ))}
@@ -148,6 +171,26 @@ const AwardAddEdit = ({ userId }) => {
 
                 </Accordion.Content>
             </Accordion>
+
+            {
+                selectedRecordDelete ? (
+                    <Modal.Legacy open={visibleDelete} className="bg-white">
+                        <Modal.Header className="font-bold text-base">Delete Experience</Modal.Header>
+                        <Modal.Body className="p-0">
+                            <p>Delete award {selectedRecordDelete.award}</p>
+                        </Modal.Body>
+                        <Modal.Actions>
+                            <Button type="button" onClick={toggleVisibleDelete} >Close</Button>
+                            <Button type="button" onClick={deleteRecord} className="bg-[#fca5a5] border-red-600 text-black">
+                                {
+                                    loadingDelete ? <Loading /> : ""
+                                }
+                                Delete
+                            </Button>
+                        </Modal.Actions>
+                    </Modal.Legacy>
+                ) : <div></div>
+            }
 
             {selectedRecord ?
                 <Modal.Legacy open={visibleEdit} className="bg-white max-w-5xl">

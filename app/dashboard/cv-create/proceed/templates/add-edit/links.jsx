@@ -1,9 +1,9 @@
 import { db } from "@/app/firebase/firebase";
-import { faPencilAlt } from "@fortawesome/free-solid-svg-icons";
+import { faPencilAlt, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Timestamp, addDoc, collection, doc, onSnapshot, query, updateDoc, where } from "firebase/firestore";
+import { Timestamp, addDoc, collection, deleteDoc, doc, onSnapshot, query, updateDoc, where } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import { Accordion, Badge, Button, Modal, Input, Select } from "react-daisyui";
+import { Accordion, Badge, Button, Modal, Input, Select, Loading } from "react-daisyui";
 
 
 const LinksUser = ({ userId }) => {
@@ -17,8 +17,11 @@ const LinksUser = ({ userId }) => {
 
     const [visible, setVisible] = useState(false);
     var [visibleEdit, setVisibleEdit] = useState(false);
+    var [visibleDelete, setVisibleDelete] = useState(false);
 
     var [selectedRecord, setSelectedRecord] = useState(null);
+    var [selectedRecordDelete, setSelectedRecordDelete] = useState(null);
+    var [loadingDelete, setLoadingDelete] = useState(false);
 
     const toggleVisible = () => {
         setVisible(!visible);
@@ -31,6 +34,15 @@ const LinksUser = ({ userId }) => {
             setSelectedRecord(record);
         } else {
             setSelectedRecord(null);
+        }
+    };
+
+    const toggleVisibleDelete = (record) => {
+        setVisibleDelete(!visibleDelete);
+        if (record) {
+            setSelectedRecordDelete(record);
+        } else {
+            setSelectedRecordDelete(null);
         }
     };
 
@@ -121,6 +133,18 @@ const LinksUser = ({ userId }) => {
         }
     }
 
+    async function deleteRecord() {
+        try {
+            setLoadingDelete(true);
+            await deleteDoc(doc(db, 'links', selectedRecordDelete.id));
+            toggleVisibleDelete(null);
+            setLoadingDelete(false);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+
     return (
         <div className="mb-3">
             <Accordion className="bg-amber-400 text-black">
@@ -128,10 +152,13 @@ const LinksUser = ({ userId }) => {
                     <p className="text-base font-semibold">Links</p>
                 </Accordion.Title>
                 <Accordion.Content>
-                    <div className="flex flex-wrap gap-2 mb-2 items-center">
+                    <div className="mb-2">
                         {links.map((link, index) => (
-                            <div key={index}>
-                                <Badge className="p-4">{link.name} <FontAwesomeIcon icon={faPencilAlt} onClick={() => toggleVisibleEdit(link)} className="pl-3 hover:cursor-pointer" /></Badge>
+                            <div key={index} className="mb-2">
+                                <Badge className="p-4">{link.name} 
+                                <FontAwesomeIcon icon={faPencilAlt} onClick={() => toggleVisibleEdit(link)} className="pl-3 pr-3 hover:cursor-pointer" />
+                                <FontAwesomeIcon icon={faTrash} onClick={() => toggleVisibleDelete(link)} className="hover:cursor-pointer" />
+                                </Badge>
                             </div>
                         ))}
                     </div>
@@ -173,6 +200,26 @@ const LinksUser = ({ userId }) => {
                     </Modal.Actions>
                 </form>
             </Modal.Legacy>
+
+            {
+                selectedRecordDelete ? (
+                    <Modal.Legacy open={visibleDelete} className="bg-white">
+                        <Modal.Header className="font-bold text-base">Delete Experience</Modal.Header>
+                        <Modal.Body className="p-0">
+                            <p>Delete link for {selectedRecordDelete.name}</p>
+                        </Modal.Body>
+                        <Modal.Actions>
+                            <Button type="button" onClick={toggleVisibleDelete} >Close</Button>
+                            <Button type="button" onClick={deleteRecord} className="bg-[#fca5a5] border-red-600 text-black">
+                                {
+                                    loadingDelete ? <Loading /> : ""
+                                }
+                                Delete
+                            </Button>
+                        </Modal.Actions>
+                    </Modal.Legacy>
+                ) : <div></div>
+            }
 
             {
                 selectedRecord ?

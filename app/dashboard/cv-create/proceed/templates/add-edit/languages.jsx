@@ -1,5 +1,5 @@
 import { db } from "@/app/firebase/firebase";
-import { faPencilAlt } from "@fortawesome/free-solid-svg-icons";
+import { faPencilAlt, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Timestamp, addDoc, collection, doc, onSnapshot, query, updateDoc, where } from "firebase/firestore";
 import { useEffect, useState } from "react";
@@ -16,8 +16,11 @@ const Languages = ({userId}) => {
 
     const [visible, setVisible] = useState(false);
     var [visibleEdit, setVisibleEdit] = useState(false);
+    var [visibleDelete, setVisibleDelete] = useState(false);
 
     var [selectedRecord, setSelectedRecord] = useState(null);
+    var [selectedRecordDelete, setSelectedRecordDelete] = useState(null);
+    var [loadingDelete, setLoadingDelete] = useState(false);
 
     const toggleVisible = () => {
         setVisible(!visible);
@@ -30,6 +33,15 @@ const Languages = ({userId}) => {
             setSelectedRecord(record);
         } else {
             setSelectedRecord(null);
+        }
+    };
+
+    const toggleVisibleDelete = (record) => {
+        setVisibleDelete(!visibleDelete);
+        if (record) {
+            setSelectedRecordDelete(record);
+        } else {
+            setSelectedRecordDelete(null);
         }
     };
 
@@ -116,7 +128,18 @@ const Languages = ({userId}) => {
                 description: descriptionValue,
                 created_at: Timestamp.now()
             }
-            await updateDoc(doc(db, "project", recordId), data);
+            await updateDoc(doc(db, "languages", recordId), data);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    async function deleteRecord() {
+        try {
+            setLoadingDelete(true);
+            await deleteDoc(doc(db, 'languages', selectedRecordDelete.id));
+            toggleVisibleDelete(null);
+            setLoadingDelete(false);
         } catch (error) {
             console.log(error);
         }
@@ -130,10 +153,13 @@ const Languages = ({userId}) => {
                     <p className="text-base font-semibold">Languages</p>
                 </Accordion.Title>
                 <Accordion.Content>
-                    <div className="flex flex-wrap gap-2 mb-2 items-center">
+                    <div className="mb-2">
                         {languages.map((lang, index) => (
-                            <div key={index}>
-                                <Badge className="p-4">{lang.name} <FontAwesomeIcon icon={faPencilAlt} onClick={() => toggleVisibleEdit(lang)} className="pl-3 hover:cursor-pointer" /></Badge>
+                            <div key={index} className="mb-2">
+                                <Badge className="p-4">{lang.name}
+                                <FontAwesomeIcon icon={faPencilAlt} onClick={() => toggleVisibleEdit(lang)} className="pl-3 pr-3 hover:cursor-pointer" />
+                                <FontAwesomeIcon icon={faTrash} onClick={() => toggleVisibleDelete(lang)} className="hover:cursor-pointer" />
+                                </Badge>
                             </div>
                         ))}
                     </div>
@@ -144,6 +170,26 @@ const Languages = ({userId}) => {
                     </div>
                 </Accordion.Content>
             </Accordion>
+
+            {
+                selectedRecordDelete ? (
+                    <Modal.Legacy open={visibleDelete} className="bg-white">
+                        <Modal.Header className="font-bold text-base">Delete Experience</Modal.Header>
+                        <Modal.Body className="p-0">
+                            <p>Delete experience data from {selectedRecordDelete.companyName}</p>
+                        </Modal.Body>
+                        <Modal.Actions>
+                            <Button type="button" onClick={toggleVisibleDelete} >Close</Button>
+                            <Button type="button" onClick={deleteRecord} className="bg-[#fca5a5] border-red-600 text-black">
+                                {
+                                    loadingDelete ? <Loading /> : ""
+                                }
+                                Delete
+                            </Button>
+                        </Modal.Actions>
+                    </Modal.Legacy>
+                ) : <div></div>
+            }
 
             <Modal.Legacy open={visible} className="bg-white max-w-5xl">
                 <form>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { Modal, Button, Input, Select, Textarea, Accordion, Badge } from "react-daisyui";
-import { collection, addDoc, Timestamp, query, where, onSnapshot, updateDoc, doc, setDoc } from "firebase/firestore";
+import { Modal, Button, Input, Select, Textarea, Accordion, Badge, Loading } from "react-daisyui";
+import { collection, addDoc, Timestamp, query, where, onSnapshot, updateDoc, doc, setDoc, deleteDoc } from "firebase/firestore";
 import { db } from "@/app/firebase/firebase";
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -25,6 +25,7 @@ const ExperienceAddEdit = ({ user_id }) => {
 
     var [selectedRecord, setSelectedRecord] = useState(null);
     var [selectedRecordDelete, setSelectedRecordDelete] = useState(null);
+    var [loadingDelete, setLoadingDelete] = useState(false);
 
     const [err, setErr] = useState(null);
 
@@ -33,7 +34,6 @@ const ExperienceAddEdit = ({ user_id }) => {
     };
 
     const toggleVisibleEdit = (record) => {
-        console.log(record);
         setVisibleEdit(!visibleEdit);
         if (record) {
             addRespRecords(record);
@@ -46,10 +46,9 @@ const ExperienceAddEdit = ({ user_id }) => {
     const toggleVisibleDelete = (record) => {
         setVisibleDelete(!visibleDelete);
         if (record) {
-            addRespRecords(record);
-            setSelectedRecord(record);
+            setSelectedRecordDelete(record);
         } else {
-            setSelectedRecord(null);
+            setSelectedRecordDelete(null);
         }
     };
 
@@ -180,7 +179,6 @@ const ExperienceAddEdit = ({ user_id }) => {
     }
 
 
-
     async function saveEditDetails(recordId) {
         console.log(uTitle);
 
@@ -254,9 +252,20 @@ const ExperienceAddEdit = ({ user_id }) => {
                 user_id: user_id,
                 created_at: Timestamp.now()
             }
-            
+
             await updateDoc(doc(db, "experience", recordId), data);
-            
+
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    async function deleteRecord() {
+        try {
+            setLoadingDelete(true);
+            await deleteDoc(doc(db, 'experience', selectedRecordDelete.id));
+            toggleVisibleDelete(null);
+            setLoadingDelete(false);
         } catch (error) {
             console.log(error);
         }
@@ -278,8 +287,8 @@ const ExperienceAddEdit = ({ user_id }) => {
                             <div key={index} className="mb-2">
                                 <Badge className="p-4">
                                     {exp.companyName}
-                                    <FontAwesomeIcon icon={faPencilAlt} onClick={() => toggleVisibleEdit(exp)} className="pl-3 pr-3 hover:cursor-pointer" /> 
-                                    <FontAwesomeIcon icon={faTrash} className="hover:cursor-pointe" />
+                                    <FontAwesomeIcon icon={faPencilAlt} onClick={() => toggleVisibleEdit(exp)} className="pl-3 pr-3 hover:cursor-pointer" />
+                                    {/* <FontAwesomeIcon icon={faTrash} onClick={() => toggleVisibleDelete(exp)} className="hover:cursor-pointer" /> */}
                                 </Badge>
                             </div>
                         ))}
@@ -291,6 +300,26 @@ const ExperienceAddEdit = ({ user_id }) => {
                     </div>
                 </Accordion.Content>
             </Accordion>
+
+            {
+                selectedRecordDelete ? (
+                    <Modal.Legacy open={visibleDelete} className="bg-white">
+                        <Modal.Header className="font-bold text-base">Delete Experience</Modal.Header>
+                        <Modal.Body className="p-0">
+                            <p>Delete experience data from {selectedRecordDelete.companyName}</p>
+                        </Modal.Body>
+                        <Modal.Actions>
+                            <Button type="button" onClick={toggleVisibleDelete} >Close</Button>
+                            <Button type="button" onClick={deleteRecord} className="bg-[#fca5a5] border-red-600 text-black">
+                                {
+                                    loadingDelete ? <Loading /> : ""
+                                }
+                                Delete
+                            </Button>
+                        </Modal.Actions>
+                    </Modal.Legacy>
+                ) : <div></div>
+            }
 
             {selectedRecord ?
 
@@ -417,12 +446,6 @@ const ExperienceAddEdit = ({ user_id }) => {
                 <div></div>
             }
             <Modal.Legacy open={visible} className="bg-white max-w-5xl">
-                <Tabs>
-                    <TabList className='flex gap-4 bg-blue-950 p-3 rounded-lg mb-5'>
-                        <Tab selectedClassName="active-tab" className='m-tabs pt-2 pb-2 pl-4 pr-4 text-white font-semibold hover:cursor-pointer'>Template One</Tab>
-                        <Tab selectedClassName="active-tab" className='m-tabs pt-2 pb-2 pl-4 pr-4 text-white font-semibold hover:cursor-pointer'>Template Two</Tab>
-                    </TabList>
-                    <TabPanel>
                         <form>
                             <Modal.Header className="font-bold">Experience</Modal.Header>
                             <Modal.Body className="p-0">
@@ -540,10 +563,6 @@ const ExperienceAddEdit = ({ user_id }) => {
                                 <Button type="button" className="bg-[#F59E0B] text-white border-none" onClick={() => addExperience()}>Save</Button>
                             </Modal.Actions>
                         </form>
-                    </TabPanel>
-                    <TabPanel>one</TabPanel>
-                </Tabs>
-
             </Modal.Legacy>
         </div>
     );
